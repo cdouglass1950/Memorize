@@ -18,112 +18,35 @@ struct ContentView: View {
     
     var body: some View {
         
-        VStack(alignment: .leading) {
-            Text("Memorize")
-                .font(.largeTitle)
-                .foregroundColor(.white)
-            
-            HStack {
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-                        ForEach(emojis[0..<emojiCount], id: \.self,  content: { emoji in
-                            CardView(content: emoji).aspectRatio(2/3, contentMode: .fit)
-                        })
-                    }
-                }
-            }
-            Spacer()
-            
-            HStack {
-                remove
-                Spacer()
-                shuffle
-                Spacer()
-                add
-            }
-            .font(.largeTitle)
-            .padding(.horizontal)
-            .foregroundColor(.accentColor)
+        HStack() {
+            cardView(isFaceUp: true)
+            cardView()
+            cardView()
+            cardView()
         }
-        .padding(.horizontal)
-        .foregroundColor(.red)
-    }
-    
-    var remove: some View {
-        Button {
-            let width = UIScreen.main.bounds.width
-            emojiCount = Int.random(in: 4...vehicles.count)
-            emojis = vehicles
-            emojis.shuffle()
-            
-//            if emojiCount > 1 {
-//                emojiCount -= 1
-//            }
-            
-        } label: {
-            VStack {
-                Image(systemName: "car")
-                    .foregroundColor(.blue)
-                    .font(.system(size: 50))
-                Text("Vehicles")
-                    .font(.headline)
-            }
-        }
-    }
-    
-    var add: some View {
-        Button {
-            emojiCount = Int.random(in: 6...animals.count)
-            emojis = animals
-            emojis.shuffle()
-//            if emojiCount < emojis.count {
-//                emojiCount += 1
-//            }
-            
-        } label: {
-            VStack {
-                Image(systemName: "pawprint.circle.fill")
-                    .foregroundColor(.blue)
-                    .font(.system(size: 50))
-                Text("Animals")
-                    .font(.headline)
-            }
-        }
-    }
-    
-    var shuffle: some View {
-        //Text("Shuffle")
-        Image(systemName: "fork.knife.circle.fill")
-            .foregroundColor(.blue)
-            .font(.system(size: 50))
+        .foregroundColor(.orange)
+        .padding()
     }
 }
 
-struct CardView: View {
-    
-    @State var isFaceUp: Bool = true
-    var content: String
+struct cardView: View {
+    var isFaceUp: Bool = false
     
     var body: some View {
+        ZStack() {
+            if isFaceUp {
+                RoundedRectangle(cornerRadius: 12)
+                    .foregroundColor(.white)
+                RoundedRectangle(cornerRadius: 12)
+                .strokeBorder(lineWidth: 2)
+                Text("👻")
+                .font(.largeTitle)
+            } else {
+                RoundedRectangle(cornerRadius: 12)
+                    .foregroundColor(.orange)
+            }
             
-            ZStack {
-                let shape = RoundedRectangle(cornerRadius: 20)
-                
-                if isFaceUp {
-                    shape.fill().foregroundColor(.white)
-                    shape.strokeBorder(lineWidth: 2)
-                    
-                    Text(content).font(.largeTitle)
-                } else {
-                    shape.fill()
-                }
-                
-            }
-            .onTapGesture {
-                isFaceUp.toggle()
-            }
-        
-        
+        }
     }
 }
 
