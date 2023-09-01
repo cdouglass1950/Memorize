@@ -19,10 +19,9 @@ struct ContentView: View {
     var body: some View {
         
         HStack() {
-            cardView()
-            cardView()
-            cardView()
-            cardView()
+            ForEach(emojis.indices, id: \.self) { index in
+                cardView(content: emojis[index])
+            }
         }
         .foregroundColor(.orange)
         .padding()
@@ -31,6 +30,7 @@ struct ContentView: View {
 
 struct cardView: View {
     @State var isFaceUp: Bool = true
+    let content: String
     
     var body: some View {
         ZStack() {
@@ -39,7 +39,7 @@ struct cardView: View {
             if isFaceUp {
                 base.fill(.white)
                 base.strokeBorder(lineWidth: 2)
-                Text("👻")
+                Text(content)
                 .font(.largeTitle)
             } else {
                 base.fill()
